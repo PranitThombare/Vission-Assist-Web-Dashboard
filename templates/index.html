@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Assist - Object Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-eye"></i> Vision Assist</h1>
+            <p class="subtitle">Real-time Object Detection System</p>
+        </header>
+
+        <div class="dashboard">
+            <main class="main-content">
+                <div class="video-container">
+                    <img src="{{ url_for('video_feed') }}" alt="Video Feed" id="video-feed">
+                    <div class="overlay">
+                        <div class="status">
+                            <i class="fas fa-circle"></i>
+                            Live Detection Active
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" onclick="window.location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh Stream
+                    </button>
+                    <button class="btn btn-secondary" onclick="toggleSettings()">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </button>
+                </div>
+            </main>
+
+            <aside class="sidebar">
+                <div class="panel detection-log">
+                    <h2><i class="fas fa-list"></i> Detection Log</h2>
+                    <div class="log-container">
+                        <div class="log-entry">
+                            <span class="timestamp">12:00:00</span>
+                            <span class="object">Person</span>
+                            <span class="confidence">98%</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="timestamp">12:00:01</span>
+                            <span class="object">Chair</span>
+                            <span class="confidence">95%</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="timestamp">12:00:02</span>
+                            <span class="object">Laptop</span>
+                            <span class="confidence">92%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel settings-panel" id="settingsPanel">
+                    <h2><i class="fas fa-sliders-h"></i> Settings</h2>
+                    <div class="settings-content">
+                        <div class="setting-item">
+                            <label>Confidence Threshold</label>
+                            <input type="range" min="0" max="100" value="30" class="slider">
+                            <span class="value">30%</span>
+                        </div>
+                        <div class="setting-item">
+                            <label>Detection Speed</label>
+                            <select class="select-input">
+                                <option>Fast</option>
+                                <option selected>Balanced</option>
+                                <option>Accurate</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Audio Feedback</label>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <footer>
+            <p><i class="fas fa-code"></i> Powered By Harshal Taware</p>
+            <div class="connection-info">
+                <div class="url-item">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Network URL: </span>
+                    <span id="networkAddress" class="url">Loading...</span>
+                </div>
+                <div class="url-item">
+                    <i class="fas fa-laptop"></i>
+                    <span>Local URL: </span>
+                    <span id="localAddress" class="url">Loading...</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            panel.classList.toggle('active');
+        }
+
+        // Update URLs
+        window.addEventListener('load', function() {
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            
+            // Set network URL
+            document.getElementById('networkAddress').textContent = `http://${hostname}:${port}`;
+            
+            // Set local URL
+            document.getElementById('localAddress').textContent = `http://localhost:${port}`;
+        });
+    </script>
+</body>
+</html> 
